@@ -1,0 +1,36 @@
+name = "LeanRAG"
+version = "0.1.0"
+defaultTargets = ["leanrag"]
+
+[[lean_lib]]
+name = "LeanRAG"
+
+[[require]]
+name = "Cli"
+git = "https://github.com/leanprover/lean4-cli"
+rev = "efa5aa20504b88e2826032ddaa606c7965ec9467"
+
+[[require]]
+name = "batteries"
+git = "https://github.com/leanprover-community/batteries"
+rev = "01006c9e86bf9e397c026fef4190478dd1fd897e"
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4"
+rev = "a6276f4c6097675b1cf5ebd49b1146b735f38c02"
+
+[[require]]
+name = "importGraph"
+git = "https://github.com/leanprover-community/import-graph"
+rev = "1a6613663c3eb08c401ce0fd1a408412f2c2321e"
+
+[[require]]
+name = "«lean-training-data»"
+git = "https://github.com/cmu-l3/ntp-toolkit"
+rev = "main"
+
+
+[[lean_exe]]
+name = "leanrag"
+root = "Main"
