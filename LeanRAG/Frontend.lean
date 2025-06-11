@@ -188,7 +188,7 @@ open System
 
 /-- Parallel to compile_time_search_path% -/
 elab "compile_time_src_search_path%" : term =>
-  return toExpr (← initSrcSearchPath)
+  return toExpr (← getSrcSearchPath)
 
 def findLean (mod : Name) : IO FilePath := do
   let srcSearchPath : SearchPath := compile_time_src_search_path%
@@ -205,7 +205,7 @@ def moduleSource' (mod : Name) : IO String := do
   IO.FS.readFile (← findLean mod)
 
 initialize sourceCache : IO.Ref <| Std.HashMap Name String ←
-  IO.mkRef .empty
+  IO.mkRef .emptyWithCapacity
 
 /-- Read the source code of the named module. The results are cached. -/
 def moduleSource (mod : Name) : IO String := do
@@ -222,7 +222,7 @@ def compileModule' (mod : Name) : MLList IO CompilationStep := do
   Lean.Elab.IO.processInput' (← moduleSource mod) none {} (← findLean mod).toString
 
 initialize compilationCache : IO.Ref <| Std.HashMap Name (List CompilationStep) ←
-  IO.mkRef .empty
+  IO.mkRef .emptyWithCapacity
 
 /--
 Compile the source file for the named module, returning the
