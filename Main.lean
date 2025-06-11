@@ -1,4 +1,1 @@
-import LeanRAG
-
-def main : IO Unit :=
-  IO.println s!"Hello, {hello}!"
+import LeanRAG.ExtractStates
