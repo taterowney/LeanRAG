@@ -2,9 +2,9 @@
 Extracts proof states from constants in the environment
 -/
 
-import TrainingData.Frontend
-import Mathlib.Data.Prod.Basic
-import Mathlib.Data.Nat.Prime.Basic
+import LeanRAG.Frontend
+-- import Mathlib.Data.Prod.Basic
+-- import Mathlib.Data.Nat.Prime.Basic
 import Lean
 import Cli
 
