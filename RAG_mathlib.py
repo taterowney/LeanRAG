@@ -18,7 +18,7 @@ import subprocess, threading
 import http.server
 
 
-ROOT_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 # DB_PATH = os.path.join(ROOT_PATH, ".db", ".mathlib_annotated_db")
 
 
@@ -43,9 +43,11 @@ def get_library_lean_files(
     path=os.path.join(ROOT_PATH, ".lake", "packages", "mathlib", "Mathlib"),
 ):
     cmd = f'find {path} -type f -name "*.lean" -print'
+    # print(cmd)
     files = subprocess.run(
         cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True
     ).stdout.split("\n")
+    print(f"Found {len(files)} files in {library_name} library.")
     for i in range(len(files)):
         try:
             files[i] = (
@@ -64,6 +66,7 @@ def save_annotated_library(
     style="new",
 ):
     modules = get_library_lean_files(library_name, path)
+    # print(modules)
     # modules = ['Mathlib.Data.Finset.MulAntidiagonal', 'Mathlib.Data.Complex.Cardinality', 'Mathlib.Topology.Category.TopCat.EffectiveEpi']
     if style == "new":
         if not os.path.exists(

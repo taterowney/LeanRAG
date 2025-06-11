@@ -34,3 +34,11 @@ rev = "main"
 [[lean_exe]]
 name = "leanrag"
 root = "Main"
+
+[[lean_exe]]
+name = "extract_states"
+root = "LeanRAG.extractStates"
+
+[[lean_exe]]
+name = "StateComments"
+root = "LeanRAG.stateComments"
