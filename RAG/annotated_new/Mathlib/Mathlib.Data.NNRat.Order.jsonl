@@ -1,0 +1,2 @@
+{"name":"NNRat.instOrderedSub","module":"Mathlib.Data.NNRat.Order","initialProofState":"⊢ OrderedSub NNRat","decl":"instance NNRat.instOrderedSub : OrderedSub ℚ≥0 := Nonneg.orderedSub\n"}
+{"name":"NNRat.instCanonicallyOrderedAdd","module":"Mathlib.Data.NNRat.Order","initialProofState":"⊢ CanonicallyOrderedAdd NNRat","decl":"instance NNRat.instCanonicallyOrderedAdd : CanonicallyOrderedAdd ℚ≥0 := Nonneg.canonicallyOrderedAdd\n"}

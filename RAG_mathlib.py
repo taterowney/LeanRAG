@@ -11,7 +11,7 @@ from langchain_chroma import Chroma
 
 from langchain_huggingface.embeddings import HuggingFaceEmbeddings
 
-from langchain_ollama import OllamaEmbeddings
+# from langchain_ollama import OllamaEmbeddings
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import os, json, shutil, copy
 import subprocess, threading
@@ -173,10 +173,13 @@ def create_database_of_annotated(replace=False, max_docs=None, package_name="Mat
     )
     docs = splitter.split_documents(docs)
     print("Number of chunks:", len(docs))
-    embeddings = OllamaEmbeddings(model="llama3.2")
+    # embeddings = OllamaEmbeddings(model="llama3.2")
     # embeddings = HuggingFaceEmbeddings(
     #     model_name="riyazahuja/Improver-DeepSeek-R1-Distill-Qwen-7B_full_4096"
     # )
+    embeddings = HuggingFaceEmbeddings(
+        model_name="hanwenzhu/all-distilroberta-v1-lr2e-4-bs256-nneg3-ml-mar13"
+    )
 
     vectorstore = Chroma(
         collection_name="Annotated_Mathlib_Theorems",
@@ -223,15 +226,21 @@ def create_database_initial_proofstate(
                     j = json.loads(line)
                     # print(j["initialProofState"][:1000])
                     # print("\n\n----------------\n\n")
-                    docs.append(
-                        Document(
-                            page_content=j["initialProofState"],
-                            metadata={
-                                "decl": j["decl"],
-                                "source": file.replace(".jsonl", ""),
-                            },
-                        )
-                    )
+
+                    # Only include declarations which are actual proofs
+                    used_declarations = ["theorem ", "lemma ", "example ", "problem"]
+                    for d in used_declarations:
+                        if " "+d+" " in j["decl"] or "\n"+d+" " in j["decl"]:
+                            docs.append(
+                                Document(
+                                    page_content=j["initialProofState"],
+                                    metadata={
+                                        "decl": j["decl"],
+                                        "source": file.replace(".jsonl", ""),
+                                    },
+                                )
+                            )
+                            break
 
     # embeddings = OllamaEmbeddings(model="llama3.2")
     # embeddings = HuggingFaceEmbeddings(
@@ -275,10 +284,10 @@ def get_database_retriever_old(package_name="Mathlib", number_to_retrieve=6, fil
     # embeddings = HuggingFaceEmbeddings(
     #     model_name="riyazahuja/Improver-DeepSeek-R1-Distill-Qwen-7B_full_4096"
     # )
-    embeddings = OllamaEmbeddings(model="llama3.2")
-    # embeddings = HuggingFaceEmbeddings(
-    #     model_name="hanwenzhu/all-distilroberta-v1-lr2e-4-bs256-nneg3-ml-mar13"
-    # )
+    # embeddings = OllamaEmbeddings(model="llama3.2")
+    embeddings = HuggingFaceEmbeddings(
+        model_name="hanwenzhu/all-distilroberta-v1-lr2e-4-bs256-nneg3-ml-mar13"
+    )
 
     # database = Chroma(
     #     collection_name=f"Annotated_{package_name}_Theorems",
@@ -339,7 +348,7 @@ def annotate_all_packages(project_home=ROOT_PATH):
 
 if __name__ == "__main__":
     # Annotate and save theorems
-    save_annotated_library()
+    # save_annotated_library()
 
     # Compile the database (takes a hot minute)
     create_database_initial_proofstate(replace=True)

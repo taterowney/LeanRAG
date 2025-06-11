@@ -1,0 +1,1 @@
+{"name":"Countable.toSmall","module":"Mathlib.Data.Countable.Small","initialProofState":"α : Type v\ninst✝ : Countable α\n⊢ Small.{w, v} α","decl":"instance (priority := 100) Countable.toSmall (α : Type v) [Countable α] : Small.{w} α :=\n  let ⟨_, hf⟩ := exists_injective_nat α\n  small_of_injective hf\n"}

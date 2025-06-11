@@ -1,0 +1,1 @@
+{"name":"PUnit.canonicallyOrderedAdd","module":"Mathlib.Algebra.PUnitInstances.Order","initialProofState":"⊢ CanonicallyOrderedAdd PUnit.{1}","decl":"instance canonicallyOrderedAdd : CanonicallyOrderedAdd PUnit where\n  exists_add_of_le {_ _} _ := ⟨unit, by subsingleton⟩\n  le_self_add _ _ := trivial\n\n"}

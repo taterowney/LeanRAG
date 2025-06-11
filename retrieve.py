@@ -12,7 +12,7 @@ set_debug(False)
 
 
 # ROOT_PATH = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-ROOT_PATH = os.path.abspath(__file__)
+ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 
 def get_database_retriever(package_name="Mathlib", number_to_retrieve=6, filter={}):

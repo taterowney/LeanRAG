@@ -1,0 +1,2 @@
+{"name":"Preorder.instHasInitial","module":"Mathlib.CategoryTheory.Limits.Preorder","initialProofState":"C : Type u\ninst✝¹ : Preorder C\ninst✝ : OrderBot C\n⊢ CategoryTheory.Limits.HasInitial C","decl":"instance : HasInitial C := hasInitial_of_unique ⊥\n\n"}
+{"name":"Preorder.instHasTerminal","module":"Mathlib.CategoryTheory.Limits.Preorder","initialProofState":"C : Type u\ninst✝¹ : Preorder C\ninst✝ : OrderTop C\n⊢ CategoryTheory.Limits.HasTerminal C","decl":"instance : HasTerminal C := hasTerminal_of_unique ⊤\n\n"}

@@ -1,0 +1,2 @@
+{"name":"zsmul_int_int","module":"Mathlib.Algebra.Group.Int.Defs","initialProofState":"a b : Int\n⊢ Eq (HSMul.hSMul a b) (HMul.hMul a b)","decl":"lemma zsmul_int_int (a b : ℤ) : a • b = a * b := rfl\n\n"}
+{"name":"zsmul_int_one","module":"Mathlib.Algebra.Group.Int.Defs","initialProofState":"n : Int\n⊢ Eq (HSMul.hSMul n 1) n","decl":"lemma zsmul_int_one (n : ℤ) : n • (1 : ℤ) = n := mul_one _\n"}
