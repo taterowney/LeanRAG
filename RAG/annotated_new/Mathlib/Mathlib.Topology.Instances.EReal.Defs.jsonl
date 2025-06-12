@@ -1,6 +1,0 @@
-{"name":"EReal.instOrderTopology","module":"Mathlib.Topology.Instances.EReal.Defs","initialProofState":"⊢ OrderTopology EReal","decl":"instance : OrderTopology EReal := ⟨rfl⟩\n"}
-{"name":"EReal.instT5Space","module":"Mathlib.Topology.Instances.EReal.Defs","initialProofState":"⊢ T5Space EReal","decl":"instance : T5Space EReal := inferInstance\n"}
-{"name":"EReal.instT2Space","module":"Mathlib.Topology.Instances.EReal.Defs","initialProofState":"⊢ T2Space EReal","decl":"instance : T2Space EReal := inferInstance\n\n"}
-{"name":"EReal.denseRange_ratCast","module":"Mathlib.Topology.Instances.EReal.Defs","initialProofState":"⊢ DenseRange fun r => ↑↑r","decl":"lemma denseRange_ratCast : DenseRange (fun r : ℚ ↦ ((r : ℝ) : EReal)) :=\n  dense_of_exists_between fun _ _ h => exists_range_iff.2 <| exists_rat_btwn_of_lt h\n\n"}
-{"name":"EReal.instSecondCountableTopology","module":"Mathlib.Topology.Instances.EReal.Defs","initialProofState":"⊢ SecondCountableTopology EReal","decl":"instance : SecondCountableTopology EReal :=\n  have : SeparableSpace EReal := ⟨⟨_, countable_range _, denseRange_ratCast⟩⟩\n  .of_separableSpace_orderTopology _\n\n"}
-{"name":"EReal.instContinuousNeg","module":"Mathlib.Topology.Instances.EReal.Defs","initialProofState":"⊢ ContinuousNeg EReal","decl":"instance : ContinuousNeg EReal := ⟨negOrderIso.continuous⟩\n\n"}

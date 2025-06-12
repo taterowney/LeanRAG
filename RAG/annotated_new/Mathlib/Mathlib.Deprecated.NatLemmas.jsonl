@@ -1,1 +1,0 @@
-{"name":"Nat.eq_zero_of_mul_eq_zero","module":"Mathlib.Deprecated.NatLemmas","initialProofState":"m n : Nat\na✝ : Eq (HMul.hMul n m) 0\n⊢ Or (Eq n 0) (Eq m 0)","decl":"@[deprecated (since := \"2024-08-23\")] alias ⟨eq_zero_of_mul_eq_zero, _⟩ := mul_eq_zero\n\n-- TODO: there are four variations, depending on which variables we assume to be nonneg\n\n"}
