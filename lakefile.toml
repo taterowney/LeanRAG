@@ -8,12 +8,12 @@ name = "LeanRAG"
 [[require]]
 name = "batteries"
 git = "https://github.com/leanprover-community/batteries"
-rev = "7a0d63fbf8fd350e891868a06d9927efa545ac1e"
+rev = "efcc7d9bd9936ecdc625baf0d033b60866565cd5"
 
 [[require]]
 name = "Cli"
 git = "https://github.com/leanprover/lean4-cli"
-rev = "f9e25dcbed001489c53bceeb1f1d50bbaf7451d4"
+rev = "e7fd1a415c80985ade02a021172834ca2139b0ca"
 
 [[lean_exe]]
 name = "leanrag"

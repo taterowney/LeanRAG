@@ -186,25 +186,12 @@ def processInput (input : String) (env? : Option Environment := none)
 
 open System
 
-def initSrcSearchPath (pkgSearchPath : SearchPath := ∅) : IO SearchPath := do
-  let srcSearchPath := (← IO.getEnv "LEAN_SRC_PATH")
-    |>.map System.SearchPath.parse
-    |>.getD []
-  let srcPath := (← IO.appDir) / ".." / "src" / "lean"
-  -- `lake/` should come first since on case-insensitive file systems, Lean thinks that `src/` also contains `Lake/`
-  return srcSearchPath ++ pkgSearchPath ++ [srcPath / "lake", srcPath]
-
 /-- Parallel to compile_time_search_path% -/
 elab "compile_time_src_search_path%" : term =>
-  -- return toExpr (← getSrcSearchPath)
   return toExpr (← initSrcSearchPath)
 
 def findLean (mod : Name) : IO FilePath := do
-  -- let _ ← initSearchPath (← findSysroot)
-  let _ ← initSearchPath (← getLibDir (← findSysroot))
-  -- let srcSearchPath : SearchPath := compile_time_src_search_path%
-  let srcSearchPath ← getSrcSearchPath
-
+  let srcSearchPath : SearchPath := compile_time_src_search_path%
   if let some fname ← srcSearchPath.findModuleWithExt "lean" mod then
     return fname
   else
@@ -218,7 +205,7 @@ def moduleSource' (mod : Name) : IO String := do
   IO.FS.readFile (← findLean mod)
 
 initialize sourceCache : IO.Ref <| Std.HashMap Name String ←
-  IO.mkRef .emptyWithCapacity
+  IO.mkRef .empty
 
 /-- Read the source code of the named module. The results are cached. -/
 def moduleSource (mod : Name) : IO String := do
@@ -235,7 +222,7 @@ def compileModule' (mod : Name) : MLList IO CompilationStep := do
   Lean.Elab.IO.processInput' (← moduleSource mod) none {} (← findLean mod).toString
 
 initialize compilationCache : IO.Ref <| Std.HashMap Name (List CompilationStep) ←
-  IO.mkRef .emptyWithCapacity
+  IO.mkRef .empty
 
 /--
 Compile the source file for the named module, returning the
