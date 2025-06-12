@@ -65,7 +65,7 @@ def allProofStatesFromModule (targetModule : Name) (decls : Option (List Name)) 
   if moduleBlackList.any (fun p => targetModule.anyS (· == p)) then
     return #[]
 
-  let _ := initSearchPath (← findSysroot)
+  let _ ← initSearchPath (← getLibDir (← findSysroot))
   let fileName := (← findLean targetModule).toString
 
   /- Replace all tactics with "sorry" for faster execution -/

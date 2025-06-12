@@ -186,12 +186,25 @@ def processInput (input : String) (env? : Option Environment := none)
 
 open System
 
+def initSrcSearchPath (pkgSearchPath : SearchPath := ∅) : IO SearchPath := do
+  let srcSearchPath := (← IO.getEnv "LEAN_SRC_PATH")
+    |>.map System.SearchPath.parse
+    |>.getD []
+  let srcPath := (← IO.appDir) / ".." / "src" / "lean"
+  -- `lake/` should come first since on case-insensitive file systems, Lean thinks that `src/` also contains `Lake/`
+  return srcSearchPath ++ pkgSearchPath ++ [srcPath / "lake", srcPath]
+
 /-- Parallel to compile_time_search_path% -/
 elab "compile_time_src_search_path%" : term =>
-  return toExpr (← getSrcSearchPath)
+  -- return toExpr (← getSrcSearchPath)
+  return toExpr (← initSrcSearchPath)
 
 def findLean (mod : Name) : IO FilePath := do
-  let srcSearchPath : SearchPath := compile_time_src_search_path%
+  -- let _ ← initSearchPath (← findSysroot)
+  let _ ← initSearchPath (← getLibDir (← findSysroot))
+  -- let srcSearchPath : SearchPath := compile_time_src_search_path%
+  let srcSearchPath ← getSrcSearchPath
+
   if let some fname ← srcSearchPath.findModuleWithExt "lean" mod then
     return fname
   else
