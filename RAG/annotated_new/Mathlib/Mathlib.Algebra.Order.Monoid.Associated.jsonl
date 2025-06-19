@@ -1,1 +1,0 @@
-{"name":"Associates.instCanonicallyOrderedMul","module":"Mathlib.Algebra.Order.Monoid.Associated","initialProofState":"M : Type u_1\ninst✝ : CancelCommMonoidWithZero M\n⊢ CanonicallyOrderedMul (Associates M)","decl":"instance : CanonicallyOrderedMul (Associates M) where\n  exists_mul_of_le h := h\n  le_self_mul _ b := ⟨b, rfl⟩\n\n"}

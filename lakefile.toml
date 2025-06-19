@@ -22,3 +22,7 @@ root = "Main"
 [[lean_exe]]
 name = "extract_states"
 root = "LeanRAG.ExtractStates"
+
+[[lean_exe]]
+name = "get_initial_proofstate"
+root = "LeanRAG.GetInitialProofstate"
