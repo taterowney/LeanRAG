@@ -2,7 +2,10 @@ import LeanRAG.Frontend
 import Lean
 import Cli
 
-open Lean Meta Core Cli
+-- open Lean Meta Core Cli
+open Lean Core Elab IO Meta Term Command Tactic Cli MetaM Frontend
+
+set_option autoImplicit true
 
 /-- Set this to false if you also want to extract proof states for definitions -/
 def theoremsOnly := true
@@ -55,6 +58,30 @@ structure Result where
   decl : String
 deriving Repr, ToJson
 
+
+def getInitialProofState2 (env : Environment) (ci : ConstantInfo) : IO String := do
+  try
+    let (state, _, _) ← MetaM.toIO (ctxCore := { fileName := "", fileMap := default }) (sCore := { env }) do
+      -- forallTelescope transforms ∀ n : Nat, 0 + n = n to _args = #[n : Nat] and typ = 0 + n = n
+      forallTelescope ci.type fun _args typ => do
+        let typ ← zetaReduce typ
+        let typ ← betaReduce typ
+        let g ← mkFreshExprMVar typ
+        g.mvarId!.withContext do
+          -- We disable some pretty-printing options,
+          -- e.g. Nat is not pretty-printed as ℕ
+          -- HAdd.hAdd is not pretty-printed as +
+          let state ← withOptions (fun o => o.set `pp.notation false |>.set `pp.fullNames true) <| Meta.ppGoal g.mvarId!
+          return state.pretty (width := 100000000)
+    return state
+  catch _ =>
+    return default
+    -- let backup:=  match InfoTree. cmd.trees |>.get? 0 with
+    -- | some t => t.mainGoalStateBefore
+    -- | _ => pure default
+    -- return (← backup).pretty (width := 100000000)
+
+
 open Elab.IO in
 def allProofStatesFromModule (targetModule : Name) (decls : Option (List Name)) (proofAsSorry? : Bool) : IO (Array Result) := do
   -- Don't extract anything from blacklisted modules
@@ -87,7 +114,7 @@ def allProofStatesFromModule (targetModule : Name) (decls : Option (List Name)) 
       let result : Result := {
         name := name,
         module := targetModule,
-        initialProofState := ← getInitialProofState env ci,
+        initialProofState := ← getInitialProofState2 env ci,
         decl := toString cmd.src
       }
       results := results.push result
