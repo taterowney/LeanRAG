@@ -163,6 +163,11 @@ def processInput' (input : String) (env? : Option Environment := none)
     enableInitializersExecution
     let (header, parserState, messages) ← Parser.parseHeader inputCtx
     let (env, messages) ← processHeader header opts messages inputCtx
+    if messages.toArray.size > 0 then
+      let msg := ← (messages.toArray.get! 0).toString
+      IO.println s!"Error parsing header!
+      {msg}
+      If you are running this using `lake exe`, make sure the executable has the `supportInterpreter = true` flag."
     pure (parserState, (Command.mkState env messages opts))
   | some env => do
     pure ({ : Parser.ModuleParserState }, Command.mkState env {} opts)
