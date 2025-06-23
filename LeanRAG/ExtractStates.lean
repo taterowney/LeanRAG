@@ -25,4 +25,3 @@ def extract_states : Cmd := `[Cli|
 def main (args : List String) : IO UInt32 :=
   extract_states.validate args
 
--- #eval main ["LeanRAG.Test"]
