@@ -95,8 +95,8 @@ def getInitialProofState (env : Environment) (ci : ConstantInfo) : IO String := 
 open Elab.IO in
 def allProofStatesFromModule (targetModule : Name) (decls : Option (List Name)) (proofAsSorry? : Bool) (theoremsOnly : Bool := true) : IO (Array Result) := do
   -- Don't extract anything from blacklisted modules
-  -- if moduleBlackList.any (fun p => targetModule.anyS (· == p)) then
-  --   return #[]
+  if moduleBlackList.any (fun p => targetModule.anyS (· == p)) then
+    return #[]
 
   searchPathRef.set compile_time_search_path%
   let fileName := (← findLean targetModule).toString
