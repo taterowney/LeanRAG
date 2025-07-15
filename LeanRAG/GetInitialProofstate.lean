@@ -19,7 +19,7 @@ def getInitialProofstate : Cmd := `[Cli|
     thmName : String; "Name of a theorem to extract the initial proof state for."
 ]
 
--- /-- `lake exe get_initial_proofstate` -/
+-- /-- `lake exe extract_declarations_info` -/
 def main (args : List String) : IO UInt32 :=
   getInitialProofstate.validate args
 
