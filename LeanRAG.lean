@@ -1,2 +1,2 @@
-import LeanRAG.Frontend
-import LeanRAG.ExtractStates
+import LeanRAG.ExtractDeclarationsInfo
+-- import LeanRAG.GetInitialProofstate

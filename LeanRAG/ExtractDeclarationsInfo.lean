@@ -1,5 +1,5 @@
 /-
-Extracts proof states from constants in the environment
+Extracts proof states, dependencies, and other information from constants in the environment
 -/
 
 import LeanRAG.States
@@ -8,7 +8,7 @@ open Lean Meta Core Cli
 
 def extractStatesMain (args : Cli.Parsed) : IO UInt32 := do
   let module := args.positionalArg! "module" |>.as! ModuleName
-  let results ← allProofStatesFromModule module none true
+  let results ← allProofStatesFromModule module none false false
   for result in results do
     IO.println (toJson result).compress
   return 0
@@ -24,5 +24,6 @@ def extract_states : Cmd := `[Cli|
 -- /-- `lake exe extract_states` -/
 def main (args : List String) : IO UInt32 :=
   extract_states.validate args
+
 
 -- #eval main ["LeanRAG.Test"]
