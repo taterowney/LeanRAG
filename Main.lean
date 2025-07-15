@@ -1,1 +1,2 @@
-import LeanRAG.ExtractStates
+import LeanRAG.ExtractDeclarationsInfo
+-- import LeanRAG.GetInitialProofstate
