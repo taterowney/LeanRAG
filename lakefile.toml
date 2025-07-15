@@ -8,20 +8,20 @@ name = "LeanRAG"
 [[require]]
 name = "batteries"
 git = "https://github.com/leanprover-community/batteries"
-rev = "01006c9e86bf9e397c026fef4190478dd1fd897e"
+rev = "b2e8b6868397fcd93c00aca7278b933c16c0ffb3"
 
 [[require]]
 name = "Cli"
-git = "https://github.com/leanprover/lean4-cli"
-rev = "efa5aa20504b88e2826032ddaa606c7965ec9467"
+git = "https://github.com/taterowney/lean4-cli"
+rev = "3e2b220813ebeb2b81930eb6a6a6524ef5d2ca98"
 
 [[lean_exe]]
 name = "leanrag"
 root = "Main"
 
 [[lean_exe]]
-name = "extract_states"
-root = "LeanRAG.ExtractStates"
+name = "extract_declarations_info"
+root = "LeanRAG.ExtractDeclarationsInfo"
 supportInterpreter = true
 
 [[lean_exe]]
