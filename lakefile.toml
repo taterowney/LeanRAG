@@ -20,5 +20,11 @@ name = "leanrag"
 root = "Main"
 
 [[lean_exe]]
-name = "extract_states"
-root = "LeanRAG.ExtractStates"
+name = "extract_declarations_info"
+root = "LeanRAG.ExtractDeclarationsInfo"
+supportInterpreter = true
+
+[[lean_exe]]
+name = "get_initial_proofstate"
+root = "LeanRAG.GetInitialProofstate"
+supportInterpreter = true

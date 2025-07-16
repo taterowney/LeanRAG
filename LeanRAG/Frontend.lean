@@ -87,6 +87,8 @@ structure CompilationStep where
   after : Environment
   msgs : List Message
   trees : List InfoTree
+  parserStateBefore : Parser.ModuleParserState
+  commandStateBefore : Command.State
 
 namespace CompilationStep
 
@@ -96,6 +98,8 @@ Process one command, returning a `CompilationStep` and
 -/
 def one : FrontendM (CompilationStep × Bool) := do
   let s := (← get).commandState
+  let parserStateBefore := (← get).parserState
+
   let before := s.env
   let done ← processCommand
   let stx := (← get).commands.back!
@@ -104,7 +108,7 @@ def one : FrontendM (CompilationStep × Bool) := do
   let after := s'.env
   let msgs := s'.messages.toList.drop s.messages.toList.length -- not using `msgs` for v4.8.0 support
   let trees := s'.infoState.trees.drop s.infoState.trees.size
-  return ({ src, stx, before, after, msgs, trees }, done)
+  return ({ src, stx, before, after, msgs, trees, parserStateBefore, commandStateBefore := s }, done)
 
 /-- Process all commands in the input. -/
 partial def all : FrontendM (List CompilationStep) := do
@@ -163,6 +167,11 @@ def processInput' (input : String) (env? : Option Environment := none)
     enableInitializersExecution
     let (header, parserState, messages) ← Parser.parseHeader inputCtx
     let (env, messages) ← processHeader header opts messages inputCtx
+    if messages.toArray.size > 0 then
+      let msg := ← (messages.toArray.get! 0).toString
+      IO.println s!"Error parsing header!
+      {msg}
+      If you are running this using `lake exe`, make sure the executable has the `supportInterpreter = true` flag."
     pure (parserState, (Command.mkState env messages opts))
   | some env => do
     pure ({ : Parser.ModuleParserState }, Command.mkState env {} opts)
